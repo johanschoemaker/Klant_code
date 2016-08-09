@@ -27,7 +27,7 @@ public class Klant {
             ResultSet resultSet = preparedstatement.getGeneratedKeys();
             if (resultSet.isBeforeFirst()){
                 resultSet.next();
-                Klant.setId(resultSet.getLong(1)); //wijs door db gegenereerde id toe aan klant
+                klant.setId(resultSet.getLong(1)); //wijs door db gegenereerde id toe aan klant
             }
             for(int i = 1; i < 10; i++){
                 String temp = input.nextLine();
@@ -88,9 +88,65 @@ public class Klant {
       }
         catch(Exception ex){
           ex.printStackTrace();
-        //end finally try
-   }//end try
+        }
     }
     
+    public void deleteKlant(){
+        try{
+            Scanner input = new Scanner(System.in);
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql//ACER/KLANT");
+            
+            int id = input.nextInt();
+            Statement stmt = connection.createStatement();
+            String sql = "DELETE FROM Klant " +
+                   "WHERE id = " + id ;
+            stmt.executeUpdate(sql);
+  
+      }
+        catch(Exception ex){
+            try{
+                Scanner input = new Scanner(System.in);
+            
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection("jdbc:mysql//ACER/KLANT");
+            
+                String voorNaam = input.nextLine();
+                String achterNaam = input.nextLine();
+                String tussenVoegsel = input.nextLine();
+                
+                Statement stmt = connection.createStatement();
+                String sql = "DELETE FROM Klant " +
+                   "WHERE voornaam = " + voorNaam + ", achternaam = " + achterNaam + ", tussenvoegsel = " + tussenVoegsel;
+                stmt.executeUpdate(sql);
+                
+            }
+            catch(Exception e){
+                System.out.println("foutieve invoer");
+            }
+          
+        }
+    }
     
+    public void updateKlant(){
+        Scanner input = new Scanner(System.in);
+        try{ 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql//ACER/KLANT");
+            
+            int id = input.nextInt();
+            String toChange = input.nextLine();
+            String changeTo = input.nextLine();
+            
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE KLANT " +
+                   "SET " + toChange + " = " + changeTo + "WHERE id = " + id;
+            stmt.executeUpdate(sql);
+            
+        }
+        catch(Exception ex){
+        
+        }
+    }
 }
